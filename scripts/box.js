@@ -1,4 +1,4 @@
-const imgs = [
+const images = [
     'Black',
     'Build',
     'Drive',
@@ -11,27 +11,27 @@ const imgs = [
     'Gates'
 ]
 
-const imgsDuplicate = [...imgs, ...imgs];
-const shuffledImgs = imgsDuplicate.sort(() => Math.random() - 0.5);
+const duplicateImages = [...images, ...images];
+const shuffledImages = duplicateImages.sort(() => Math.random() - 0.5); //gera um numero aleatorio entre 0,5 a -0,5, para embaralhar as imagens 
 
-const ul = document.querySelector('.Game-box');
+const boardGame = document.querySelector('.boardGame');
 
-var cont = -1;
+var cardValue = -1;
 
 const createCards = () => {
-    cont += 1;
+    cardValue += 1;
 
-    li = document.createElement('li');
+    createdCards = document.createElement('li');
     
-    li.className = 'card';
-    li.value = cont;
+    createdCards.className = 'card-back';
+    createdCards.value = cardValue;
 
-    return li;
+    return createdCards;
 }
 
 const load = () => {
-    for (let i = 0; i < shuffledImgs.length; i += 1) {
-        ul.appendChild(createCards()) 
+    for (let i = 0; i < shuffledImages.length; i += 1) {
+        boardGame.appendChild(createCards()) 
     }
 }
 
