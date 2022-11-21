@@ -5,28 +5,29 @@ const cards = document.querySelectorAll('.card-back');
 
 var firstCard = '', secondCard = '';
 
-const faceCard = 'face_cards'; 
+const faceCard = 'face_cards';
 const cardBack = 'card-back';
 const cardsEqual = 'cards-equal';
+var moves = 0;
 
 cards.forEach((card) => {
     card.addEventListener('click', function () {
         if (card.className === 'card-back') {
             if (firstCard === '') {
                 addRemoveCard(card, shuffledImages[card.value], faceCard, cardBack);
-
+                moves++;
                 firstCard = shuffledImages[card.value];
-            } else if (secondCard === '') {
-                addRemoveCard(card, shuffledImages[card.value], faceCard, cardBack);
-
-                secondCard = shuffledImages[card.value];
-                checkCards();
+                return;
             }
+            addRemoveCard(card, shuffledImages[card.value], faceCard, cardBack);
+            secondCard = shuffledImages[card.value];
+            checkCards();
         }
     })
 });
 
 var hearts = life.length;
+var lostLife = 0;
 
 const checkCards = () => {
     var faceCards = document.querySelectorAll('.face_cards');
@@ -42,17 +43,18 @@ const checkCards = () => {
         }
 
         equalCards();
-    } else {
-        firstCard = '';
-        secondCard = '';
-        setTimeout(() => {
-            for (let i = 0; i < faceCards.length; i += 1) {
-                addRemoveCard(faceCards[i], 'imgBack', cardBack, faceCard);
-            }
-            loseLife('rgb(25, 145, 176)', --hearts);
-        }, 400)
-
+        return;
     }
+
+    firstCard = '';
+    secondCard = '';
+    lostLife++;
+    setTimeout(() => {
+        for (let i = 0; i < faceCards.length; i += 1) {
+            addRemoveCard(faceCards[i], 'imgBack', cardBack, faceCard);
+        }
+        loseLife('rgb(25, 145, 176)', --hearts);
+    }, 400)
 }
 
 const addRemoveCard = (card, value, newClass, oldClass) => {
@@ -63,12 +65,18 @@ const addRemoveCard = (card, value, newClass, oldClass) => {
 
 var equal = 0;
 
+const displayNone = 'none';
+const displayFlex = 'flex';
+const finalTitle = document.querySelector('.final-title')
+
 var equalCards = () => {
     equal += 1;
 
     if (equal === images.length) {
-        gameScreen.style.display = 'none';
-        endScreen.style.display = 'flex';
+        gameScreen.style.display = displayNone;
+        endScreen.style.display = displayFlex;
+
+        finalTitle.textContent = `You won in ${formatTimer(timerMinutes)}:${formatTimer(--timerSeconds)}, using ${moves} moves with ${lostLife} lives lost`;
     }
 }
 
@@ -78,8 +86,8 @@ btn.addEventListener('click', function () {
     window.location.reload(true);
 
     setTimeout(() => {
-        gameScreen.style.display = 'flex';
-        endScreen.style.display = 'none';
+        gameScreen.style.display = displayFlex;
+        endScreen.style.display = displayNone;
     }, 300);
 })
 
