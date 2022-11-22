@@ -38,8 +38,8 @@ const load = () => {
 load();
 
 const divForm = document.querySelector('.container div');
-const inputName = document.querySelectorAll('input')[0];
-const inputSubmit = document.querySelectorAll('input')[1];
+const inputName = document.querySelector('#user');
+const inputSubmit = document.querySelector('#Submit');
 const user = document.querySelector('.user');
 
 inputName.addEventListener('input', function ({ target }) {
@@ -59,5 +59,9 @@ inputSubmit.addEventListener('click', function (target) {
     }, 1000)
 
     divForm.style.display = displayNone;
-    user.innerHTML = `user : ${inputName.value}`;
+
+    localStorage.setItem('user', inputName.value);
+    const userName = localStorage.getItem('user');
+
+    user.innerHTML = `user : ${userName}`;
 });
